@@ -1,0 +1,38 @@
+version: '3.1'
+
+services:
+  db:
+    container_name: hitech_db
+    image: postgres:latest
+    restart: always
+    networks:
+      - database
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    env_file:
+      - .env
+
+  adminer:
+    container_name: hitech_adminer
+    image: adminer
+    ports:
+      - 8080:8080
+
+  api:
+    restart: always
+    container_name: hitech_api
+    build:
+      context: .
+    networks:
+      - database
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+
+networks:
+  database:

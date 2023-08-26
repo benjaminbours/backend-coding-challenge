@@ -93,19 +93,23 @@ export class MoviesService {
                 releaseDate: new Date(releaseDate),
               }
             : {}),
-          genre: {
-            set: [],
-            connectOrCreate: genre.map((genre) => {
-              return {
-                where: {
-                  name: genre,
+          ...(genre
+            ? {
+                genre: {
+                  set: [],
+                  connectOrCreate: genre.map((genre) => {
+                    return {
+                      where: {
+                        name: genre,
+                      },
+                      create: {
+                        name: genre,
+                      },
+                    };
+                  }),
                 },
-                create: {
-                  name: genre,
-                },
-              };
-            }),
-          },
+              }
+            : {}),
         },
         include: {
           genre: true,

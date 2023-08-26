@@ -15,7 +15,7 @@ model Movie {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  title       String
+  title       String   @unique
   description String
   releaseDate DateTime
 

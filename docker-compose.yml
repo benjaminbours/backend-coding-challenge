@@ -30,7 +30,9 @@ services:
     depends_on:
       - db
     volumes:
-      - .:/app
+      - ./src:/app/src
+      - ./test:/app/test
+      - ./prisma:/app/prisma
     env_file:
       - .env
     ports:

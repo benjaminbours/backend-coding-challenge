@@ -7,6 +7,7 @@ import {
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { PrismaService } from '../prisma.service';
+import { Prisma } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 @Injectable()
@@ -46,8 +47,24 @@ export class MoviesService {
       });
   }
 
-  findAll() {
-    return this.prismaService.movie.findMany({ include: { genre: true } });
+  findAll(search?: string) {
+    const where: Prisma.MovieWhereInput = {};
+    if (search) {
+      where.OR = [
+        {
+          title: {
+            startsWith: search,
+          },
+        },
+        {
+          genre: { some: { name: { startsWith: search } } },
+        },
+      ];
+    }
+    return this.prismaService.movie.findMany({
+      where,
+      include: { genre: true },
+    });
   }
 
   findOne(id: number) {

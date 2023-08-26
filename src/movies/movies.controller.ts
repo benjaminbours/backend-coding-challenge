@@ -8,11 +8,12 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
-import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse, ApiQuery } from '@nestjs/swagger';
 import { Movie } from './entities/movie.entity';
 
 @Controller('movies')
@@ -33,9 +34,15 @@ export class MoviesController {
     description: 'List of all movies',
     type: [Movie],
   })
+  @ApiQuery({
+    name: 'search',
+    description: 'The name of the movie or genre you are looking for',
+    type: 'string',
+    required: false,
+  })
   @Get()
-  findAll() {
-    return this.moviesService.findAll();
+  findAll(@Query('search') search: string | undefined) {
+    return this.moviesService.findAll(search);
   }
 
   @ApiOkResponse({

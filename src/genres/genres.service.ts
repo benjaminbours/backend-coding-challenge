@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { CreateGenreDto } from './dto/create-genre.dto';
 // import { UpdateGenreDto } from './dto/update-genre.dto';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from '../prisma.service';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 @Injectable()

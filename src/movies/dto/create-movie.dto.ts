@@ -26,6 +26,7 @@ export class CreateMovieDto {
   @IsDateString()
   releaseDate: string;
 
+  @ApiProperty({ type: [String] })
   @IsArray()
   @ArrayMinSize(1)
   @IsString({ each: true })
